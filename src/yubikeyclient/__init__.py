@@ -34,6 +34,6 @@ def query(otp, api_id, api_key=None):
 
     """
     ws = wsapi.WsApi(wsapi.YUBICO_WS_URL, api_id, api_key)
-    return ws.verify(otp)
+    return ws.query(otp)
 
 

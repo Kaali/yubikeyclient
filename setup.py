@@ -1,26 +1,36 @@
+# -*- coding: utf-8 -*-
+
 from setuptools import setup, find_packages
 import sys, os
 
 version = '0.1'
 
+try:
+    f = open('README.txt')
+    long_description = f.read() + '\n\n'
+finally:
+    f.close()
+
 setup(name='yubikeyclient',
       version=version,
-      description="foobar",
-      long_description="""\
-bar""",
+      description="Yubikey Client library",
+      long_description=long_description,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       keywords='yubico yubikey client',
-      author='V\xc3\xa4in\xc3\xb6 J\xc3\xa4rvel\xc3\xa4',
-      author_email='',
+      author=u'Väinö Järvelä',
+      author_email='vaino at complexusage.net',
       url='',
       license='MIT',
       packages=find_packages('src'),
-      package_dir = {'': 'src'},include_package_data=True,
+      package_dir={'': 'src'},
+      include_package_data=True,
       zip_safe=False,
       install_requires=[
-          # -*- Extra requirements: -*-
+        'setuptools'
       ],
       entry_points="""
-      # -*- Entry points: -*-
+# -*- Entry points: -*-
+[console_scripts]
+query_otp = yubikeyclient.cmdline:query_yubico_wsapi
       """,
       )

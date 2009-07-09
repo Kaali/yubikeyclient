@@ -1,0 +1,83 @@
+================
+ Yubikey Client
+================
+
+
+Introduction
+============
+
+This package is a Yubico Yubikey [#]_ client for Python.  It supports Yubico's
+Web Service API (WSAPI) with HMAC signature checks; but is structured for
+implementing support for other Yubikey authentication servers.
+
+
+Usage
+=====
+
+The package installs a simple executable for verifying OTP's through the
+Yubico WSAPI called ``query_yubico``, which accepts the following commandline
+parameters:
+
+.. parsed-literal::
+
+  $ query_yubico [--verbose] [--api-key *key*] *api_id* *otp*
+
+If ``--api-key`` is used, then the signature verification will be done,
+otherwise the query is unsigned.  The command returns a status code which is
+one of the following:
+
+OK
+  The OTP is valid.
+
+BAD_OTP
+  The OTP is invalid format.
+
+REPLAYED_OTP
+  The OTP has already been seen by the service.
+
+BAD_SIGNATURE
+  The HMAC signature verification failed.
+
+MISSING_PARAMETER
+  The request lacks parameter given by key info.
+
+NO_SUCH_CLIENT
+  The request id does not exist.
+
+OPERATION_NOT_ALLOWED
+  The request id is not allowed to verify OTPs.
+
+BACKEND_ERROR
+  Unexpected error in our server. Please contact us if you see this error.
+
+INVALID_SIGNATURE
+  The server sent an invalid signature.
+
+
+The following is an example how to use the API from Python (the values are not
+valid; thus this code cannot be run directly):
+
+>>> from yubikeyclient import query, verify
+>>> otp = 'vvvvvvvvvvvvfhkjfseiwbwiuhvewivuheihviuhwiuh'
+>>> api_id = '1234'
+>>> api_key = 'Zm9vYmFyYmF6ZW5jb2RlZA=='
+>>> verify(otp, api_id, api_key)
+True
+
+If there was an error, ``verify`` throws
+``yubicoclient.wsapi.YubiWsException`` with some message from the definition
+list above, on success it returns ``True``.  If you do not wish to receive
+exceptions, then you can use ``query``, which has the same API, but returns
+the status strings directly, not wrapped in the exception -- success returns 'OK'.
+
+``verify`` and ``query`` are wrappers to ``yubikeyclient.yubico.wsapi.WsApi``
+class.  To use the Web Service API directly, instantiate it with a service
+URL, API ID and optionally API key for signing:
+
+>>> from yubikeyclient.yubico import wsapi
+>>> url = wsapi.YUBICO_WS_URL
+>>> ws = wsapi.WsApi(url, api_id, api_key)
+>>> ws.verify(otp)
+True
+>>> ws.query(otp)
+'OK'
