@@ -81,3 +81,9 @@ URL, API ID and optionally API key for signing:
 True
 >>> ws.query(otp)
 'OK'
+
+
+Source Code
+===========
+
+Source code is available at http://github.com/kaalimus/yubikeyclient

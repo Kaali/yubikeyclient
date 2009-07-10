@@ -6,7 +6,7 @@ import sys, os
 version = '0.1'
 
 try:
-    f = open('README.txt')
+    f = open('README')
     long_description = f.read() + '\n\n'
 finally:
     f.close()
