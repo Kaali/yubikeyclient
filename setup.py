@@ -28,7 +28,7 @@ setup(name='yubikeyclient',
         'Topic :: Utilities'
         ],
       keywords='yubico yubikey client',
-      author=u'Väinö Järvelä',
+      author=u'Väinö Järvelä'.encode('utf8'),
       author_email='vaino at complexusage.net',
       url='',
       license='MIT',
